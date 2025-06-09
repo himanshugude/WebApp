@@ -51,4 +51,4 @@ pipeline {
             echo 'Pipeline failed. You may want to troubleshoot the logs above.'
         }
     }
-}
+
