@@ -8,7 +8,15 @@ pipeline {
                 bat 'docker build -t my-http-app .'
             }
         }
-
+         stage('Stop Previous Container') {
+            steps {
+                script {
+                    echo 'Stopping previous container (if any)...'
+                    bat 'docker stop my-http-container || echo No existing container to stop'
+                    bat 'docker rm my-http-container || echo No existing container to remove'
+                }
+            }
+        }
        
 
         stage('Run Docker Container') {
