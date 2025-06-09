@@ -31,7 +31,7 @@ pipeline {
             steps {
                 bat 'docker stop my-http-container && docker rm my-http-container'
                 bat 'docker rmi my-http-app'
-    }
-}
+        }
+      }
     }
 }
