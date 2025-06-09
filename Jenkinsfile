@@ -35,7 +35,7 @@ pipeline {
         stage('Run Docker Container') {
             steps {
                 echo 'Running new container...'
-                bat 'docker run -d -p 8080:80 --name my-http-container my-http-app'
+                bat 'docker run -d -p 8081:80 --name my-http-container my-http-app'
             }
         }
 
