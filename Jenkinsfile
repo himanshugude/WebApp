@@ -2,13 +2,6 @@ pipeline {
     agent any
 
     stages {
-        stage('Clone Repository') {
-            steps {
-                echo 'Cloning repository...'
-                // Repo is already checked out automatically in multibranch or pipeline from SCM
-            }
-        }
-
         stage('Build Docker Image') {
             steps {
                 echo 'Building Docker image...'
@@ -19,15 +12,9 @@ pipeline {
         stage('Stop Previous Container') {
             steps {
                 script {
-                    def stopStatus = bat(script: 'docker stop my-http-container', returnStatus: true)
-                    if (stopStatus != 0) {
-                        echo "No existing container to stop"
-                    }
-
-                    def rmStatus = bat(script: 'docker rm my-http-container', returnStatus: true)
-                    if (rmStatus != 0) {
-                        echo "No existing container to remove"
-                    }
+                    echo 'Stopping previous container (if any)...'
+                    bat 'docker stop my-http-container || echo No existing container to stop'
+                    bat 'docker rm my-http-container || echo No existing container to remove'
                 }
             }
         }
@@ -38,17 +25,14 @@ pipeline {
                 bat 'docker run -d -p 8081:80 --name my-http-container my-http-app'
             }
         }
-
-        
-        }
     }
 
     post {
-        always {
-            echo 'Pipeline finished. You can check Docker status if needed.'
+        success {
+            echo 'Pipeline succeeded!'
         }
         failure {
-            echo 'Pipeline failed. You may want to troubleshoot the logs above.'
+            echo 'Pipeline failed.'
         }
     }
-
+}
