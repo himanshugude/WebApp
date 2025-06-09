@@ -39,20 +39,7 @@ pipeline {
             }
         }
 
-        stage('Cleanup') {
-            steps {
-                script {
-                    def stopStatus = bat(script: 'docker stop my-http-container', returnStatus: true)
-                    if (stopStatus == 0) {
-                        bat 'docker rm my-http-container'
-                    }
-
-                    def rmiStatus = bat(script: 'docker rmi my-http-app', returnStatus: true)
-                    if (rmiStatus != 0) {
-                        echo "Image already removed or doesn't exist"
-                    }
-                }
-            }
+        
         }
     }
 
