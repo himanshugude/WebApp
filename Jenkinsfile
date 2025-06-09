@@ -25,6 +25,13 @@ pipeline {
             steps {
                 bat 'docker run -d -p 8080:80 --name my-http-container my-http-app'
             }
-        }
+       
+        }  
+        stage('Cleanup') {
+            steps {
+                bat 'docker stop my-http-container && docker rm my-http-container'
+                bat 'docker rmi my-http-app'
+    }
+}
     }
 }
